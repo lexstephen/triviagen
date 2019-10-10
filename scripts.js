@@ -29,13 +29,25 @@ wordApp.loopInterval = () => {
 };
 
 wordApp.loopListener = () => {
-    $('#loop').change(function() {
-        if(this.checked) {
-            wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 2000);  
-        } else {
-            clearInterval(wordApp.randomWordLoop);
-        }
-    })
+    $('#playLoop').click(function() {
+        console.log('clicked play');
+        $('#playLoop').toggleClass('active');
+        $('#playLoop').prop('disabled', true);
+        $('#pauseLoop').prop('disabled', false);
+        $('#pauseLoop').toggleClass('active');
+        wordApp.loopInterval();
+        wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 2000);     
+    });
+    
+    $('#pauseLoop').click(function() {
+        console.log('clicked pause');
+        $('#playLoop').toggleClass('active');
+        $('#playLoop').prop('disabled', false);
+        $('#pauseLoop').prop('disabled', true);
+        $('#pauseLoop').toggleClass('active');
+        clearInterval(wordApp.randomWordLoop);
+    });
+
 };
 
 wordApp.jjaListener = () => {
@@ -71,14 +83,13 @@ wordApp.getWord = (word, params) => {
         (result) => {
             // const randomNumber = 0;
             const randomNumber = Math.floor(Math.random() * result.length);
-            const thisWord = result[randomNumber].word;
-            // console.log("data object:",wordApp.requestObject.data);
-            // console.log(`${randomNumber}: ${result[randomNumber].word}`, result);
-            // console.log("decision",`Chose ${thisWord} from index ${randomNumber}`);
-            $('#rhymeString').append(` ${word} ${thisWord}`);
-            wordApp.iteration++;
-            if(wordApp.iteration < 2) {
-                wordApp.getWord(``,{ rel_rhy: thisWord});
+            if(result[randomNumber] !== undefined) {
+                const thisWord = result[randomNumber].word;
+                $('#rhymeString').append(` ${word} ${thisWord}`);
+                wordApp.iteration++;
+                if(wordApp.iteration < 2) {
+                    wordApp.getWord(``,{ rel_rhy: thisWord});
+                }
             }
         });
 }
