@@ -34,7 +34,13 @@
                 <div class="jumbotron">
                     <div class="card text-white bg-success mb-3" style="max-width: 50rem;">
                         <div class="card-body">
-                            <h4 class="card-title display-4">&gt;</h1>
+                            <h4 class="card-title display-4">
+                                &gt;<span id="rhymeString"></span>
+                            </h4>
+                            <p>
+                                    <input type="checkbox" id="loop" checked>
+                                    keep 'em coming
+                            </p>
                         </div>
                     </div>
 
@@ -42,7 +48,7 @@
                         <div class="card-body">
                             <form id="nounForm">
                                 <fieldset>
-                                    <legend class="text-primary">build a team name around a noun</legend>
+                                    <legend class="text-primary">build a rhyming team name around a word</legend>
                                     <div class="form-group">
                                         <label for="inputWord" class="sr-only">Enter a noun</label>
                                         <input type="text" class="form-control" id="inputWord" placeholder="music">
@@ -59,74 +65,7 @@
             </div>
         </div>
     </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script>
-            const wordApp = {};
-            wordApp.url = "https://api.datamuse.com/words";
-            wordApp.iteration = 0;
-            $(() => {
-                wordApp.init();
-            });
-
-            wordApp.init = () => {
-                let wordString;
-                // wordApp.buildRequest({topics: "literature", rel_rhy: "book"});
-                // wordApp.getWord({ml: "music", v: "enwiki"});
-                wordApp.getWord("", {topics: "celebrity", v: "enwiki"});
-                wordApp.getWord("", {rel_jja: "answer", topics: "sports", v: "enwiki"});
-                // wordApp.buildRequest({topics: "music", rel_rhy: "ticket"});
-                // wordApp.buildRequest({topics: "sports"});
-                // wordApp.buildRequest({topics: "music", rel_rhy: wordApp.tempWord});
-                // console.log(wordApp.tempWord);
-                wordApp.jjaListener();
-            }
-
-            wordApp.jjaListener = () => {
-                $('#nounForm').submit((ev) => {
-                    console.log("yo");
-                    wordApp.iteration = 0;
-                    ev.preventDefault();
-                    $('h4').empty();
-                    const word = $('#inputWord').val();
-                    wordApp.getWord(`&gt; ${word}`,{topics: word, rel_jja: word});
-                })
-            }
-
-            wordApp.requestObject = {
-                url: wordApp.url,
-                method: "GET",
-                dataType: "json",
-                data: {}
-            }
-
-            // wordApp.buildRequest = (params) => {
-            //     // wordApp.requestObject.data = {};                
-            //     wordApp.requestObject.data = params;                
-            //     // for (let key in params) {
-            //     //     wordApp.requestObject.data[key] = params[key];
-            //     // }
-            //     wordApp.getWord();
-            // }
-
-            wordApp.getWord = (word, params) => {   
-                // console.log("title",$('.lead').text());         
-                wordApp.requestObject.data = params; 
-                $.ajax(wordApp.requestObject).then(
-                    (result) => {
-                        // const randomNumber = 0;
-                        const randomNumber = Math.floor(Math.random() * result.length);
-                        const thisWord = result[randomNumber].word;
-                        // console.log("data object:",wordApp.requestObject.data);
-                        // console.log(`${randomNumber}: ${result[randomNumber].word}`, result);
-                        // console.log("decision",`Chose ${thisWord} from index ${randomNumber}`);
-                        $('h4').append(` ${word} ${thisWord}`);
-                        wordApp.iteration++;
-                        console.log(wordApp.iteration);
-                        if(wordApp.iteration < 2) {
-                            wordApp.getWord(``,{ rel_rhy: thisWord});
-                        }
-                    });
-            }
-        </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
