@@ -10,41 +10,41 @@ $(() => {
 
 wordApp.init = () => {
     let wordString;
-    wordApp.randomOnLoad();
-    wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 2000);  
+    wordApp.showRandomNames();
     wordApp.loopListener();
     wordApp.jjaListener();
 }
 
-wordApp.randomOnLoad = () => {
-    wordApp.getWord("", {topics: "celebrity", v: "enwiki"});
-    wordApp.getWord("", {rel_jja: "answer", topics: "sports", v: "enwiki"});
+wordApp.showRandomNames = () => {
+    wordApp.getWord("", {topics: "food", v: "enwiki"});
+    wordApp.getWord("", {rel_jja: "drink", topics: "food", v: "enwiki"});
+    wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 5000);  
 }
 
 wordApp.loopInterval = () => {
     $('#rhymeString').empty();
     wordApp.iteration = 0;
-    wordApp.getWord("", {topics: "celebrity", v: "enwiki"});
-    wordApp.getWord("", {rel_jja: "answer", topics: "sports", v: "enwiki"});
+    wordApp.getWord("", {topics: "animals", v: "enwiki"});
+    wordApp.getWord("", {rel_jja: "cute", topics: "adjectives", v: "enwiki"});
 };
 
 wordApp.loopListener = () => {
     $('#playLoop').click(function() {
-        console.log('clicked play');
-        $('#playLoop').toggleClass('active');
+        // console.log('clicked play');
+        // $('#playLoop').toggleClass('active');
         $('#playLoop').prop('disabled', true);
         $('#pauseLoop').prop('disabled', false);
-        $('#pauseLoop').toggleClass('active');
+        // $('#pauseLoop').toggleClass('active');
         wordApp.loopInterval();
-        wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 2000);     
+        wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 5000);     
     });
     
     $('#pauseLoop').click(function() {
         console.log('clicked pause');
-        $('#playLoop').toggleClass('active');
+        // $('#playLoop').toggleClass('active');
         $('#playLoop').prop('disabled', false);
         $('#pauseLoop').prop('disabled', true);
-        $('#pauseLoop').toggleClass('active');
+        // $('#pauseLoop').toggleClass('active');
         clearInterval(wordApp.randomWordLoop);
     });
 
