@@ -1,7 +1,7 @@
 
 const wordApp = {};
 wordApp.url = "https://api.datamuse.com/words";
-wordApp.iteration = 0;
+wordApp.baseWord = "music";
 wordApp.randomWordLoop;
 
 $(() => {
@@ -11,17 +11,15 @@ $(() => {
 wordApp.init = () => {
     let wordString;
     wordApp.generateRandomName();
-    wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 5000);  
+    // wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 5000);  
     wordApp.loopListener();
     wordApp.jjaListener();
 }
 
-wordApp.generateRandomName = (inputWord) => {
-    if(inputWord === "" || inputWord === undefined) {
-        inputWord = "music";
-    }
+wordApp.generateRandomName = () => {
+    clearInterval(wordApp.randomWordLoop);
     let firstWord, secondWord, thirdWord;
-    const starterWordsArray = wordApp.getWords("", {topics: inputWord, v: "enwiki"});
+    const starterWordsArray = wordApp.getWords("", {topics: wordApp.baseWord, v: "enwiki"});
     $.when(starterWordsArray).done((firstSet) => {
         firstWord = wordApp.pickRandomIndex(firstSet);
         const secondWordArray = wordApp.getWords("", {rel_bga: firstWord, v: "enwiki"});
@@ -30,23 +28,24 @@ wordApp.generateRandomName = (inputWord) => {
                 const thirdWordArray = wordApp.getWords("", {rel_rhy: secondWord, v: "enwiki"});
                 $.when(thirdWordArray).done((thirdSet) => {
                     thirdWord = wordApp.pickRandomIndex(thirdSet);
-                    console.log("" + " " + firstWord + " " + secondWord + " " + thirdWord);
+                    console.log(wordApp.baseWord + ": " + " " + firstWord + " [" + secondWord + "] " + thirdWord);
                     $('#rhymeString').text(`${firstWord} ${secondWord} ${thirdWord}`)
                 });
         });
     });
+    wordApp.randomWordLoop = setInterval(wordApp.generateRandomName, 5000);
 }
 
 wordApp.pickRandomIndex = (result) => {
     let randomNumber = Math.floor(Math.random() * result.length);
     if(result[randomNumber] !== undefined) {
         return result[randomNumber].word;
-    } 
+    } else {
+        return "toronto";
+    }
 }
 
 wordApp.loopInterval = () => {
-    $('#rhymeString').empty();
-    wordApp.generateRandomName();
 };
 
 wordApp.loopListener = () => {
@@ -54,7 +53,9 @@ wordApp.loopListener = () => {
         $('#playLoop').prop('disabled', true);
         $('#pauseLoop').prop('disabled', false);
         wordApp.loopInterval();
-        wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 5000);     
+        $('#rhymeString').empty();
+        wordApp.generateRandomName();
+        // wordApp.randomWordLoop = setInterval(wordApp.generateRandomName, 5000);     
     });
     
     $('#pauseLoop').click(function() {
@@ -69,8 +70,8 @@ wordApp.jjaListener = () => {
         ev.preventDefault();
         clearInterval(wordApp.randomWordLoop);
         $('#rhymeString').empty();
-        const word = $('#inputWord').val();
-        wordApp.generateRandomName(word);
+        wordApp.baseWord = $('#inputWord').val();    
+        wordApp.generateRandomName(wordApp.baseWord);
     })
 }
 
