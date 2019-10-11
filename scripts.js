@@ -10,53 +10,67 @@ $(() => {
 
 wordApp.init = () => {
     let wordString;
-    wordApp.showRandomNames();
+    wordApp.generateRandomName();
+    wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 5000);  
     wordApp.loopListener();
     wordApp.jjaListener();
 }
 
-wordApp.showRandomNames = () => {
-    wordApp.getWord("", {topics: "food", v: "enwiki"});
-    wordApp.getWord("", {rel_jja: "drink", topics: "food", v: "enwiki"});
-    wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 5000);  
+wordApp.generateRandomName = (inputWord) => {
+    if(inputWord === "" || inputWord === undefined) {
+        inputWord = "music";
+    }
+    let firstWord, secondWord, thirdWord;
+    const starterWordsArray = wordApp.getWords("", {topics: inputWord, v: "enwiki"});
+    $.when(starterWordsArray).done((firstSet) => {
+        firstWord = wordApp.pickRandomIndex(firstSet);
+        const secondWordArray = wordApp.getWords("", {rel_bga: firstWord, v: "enwiki"});
+        $.when(secondWordArray).done((secondSet) => {
+            secondWord = wordApp.pickRandomIndex(secondSet);
+                const thirdWordArray = wordApp.getWords("", {rel_rhy: secondWord, v: "enwiki"});
+                $.when(thirdWordArray).done((thirdSet) => {
+                    thirdWord = wordApp.pickRandomIndex(thirdSet);
+                    console.log("" + " " + firstWord + " " + secondWord + " " + thirdWord);
+                    $('#rhymeString').text(`${firstWord} ${secondWord} ${thirdWord}`)
+                });
+        });
+    });
+}
+
+wordApp.pickRandomIndex = (result) => {
+    let randomNumber = Math.floor(Math.random() * result.length);
+    if(result[randomNumber] !== undefined) {
+        return result[randomNumber].word;
+    } 
 }
 
 wordApp.loopInterval = () => {
     $('#rhymeString').empty();
-    wordApp.iteration = 0;
-    wordApp.getWord("", {topics: "animals", v: "enwiki"});
-    wordApp.getWord("", {rel_jja: "cute", topics: "adjectives", v: "enwiki"});
+    wordApp.generateRandomName();
 };
 
 wordApp.loopListener = () => {
     $('#playLoop').click(function() {
-        // console.log('clicked play');
-        // $('#playLoop').toggleClass('active');
         $('#playLoop').prop('disabled', true);
         $('#pauseLoop').prop('disabled', false);
-        // $('#pauseLoop').toggleClass('active');
         wordApp.loopInterval();
         wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 5000);     
     });
     
     $('#pauseLoop').click(function() {
-        console.log('clicked pause');
-        // $('#playLoop').toggleClass('active');
         $('#playLoop').prop('disabled', false);
         $('#pauseLoop').prop('disabled', true);
-        // $('#pauseLoop').toggleClass('active');
         clearInterval(wordApp.randomWordLoop);
     });
-
 };
 
 wordApp.jjaListener = () => {
     $('#nounForm').submit((ev) => {
         ev.preventDefault();
-        wordApp.iteration = 0;
+        clearInterval(wordApp.randomWordLoop);
         $('#rhymeString').empty();
         const word = $('#inputWord').val();
-        wordApp.getWord(`${word}`,{topics: word, rel_jja: word});
+        wordApp.generateRandomName(word);
     })
 }
 
@@ -76,20 +90,16 @@ wordApp.requestObject = {
 //     wordApp.getWord();
 // }
 
-wordApp.getWord = (word, params) => {   
+wordApp.getWords = (word, params) => {   
+    // console.log("getWds");
     // console.log("title",$('.lead').text());         
     wordApp.requestObject.data = params; 
-    $.ajax(wordApp.requestObject).then(
-        (result) => {
-            // const randomNumber = 0;
-            const randomNumber = Math.floor(Math.random() * result.length);
-            if(result[randomNumber] !== undefined) {
-                const thisWord = result[randomNumber].word;
-                $('#rhymeString').append(` ${word} ${thisWord}`);
-                wordApp.iteration++;
-                if(wordApp.iteration < 2) {
-                    wordApp.getWord(``,{ rel_rhy: thisWord});
-                }
-            }
-        });
+    const result = $.ajax(wordApp.requestObject)
+    // .then(
+    //     (result) => {
+    //         // const randomNumber = 0;
+    //         
+    //     }
+    //     );
+    return result;
 }
