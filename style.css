@@ -1,0 +1,118 @@
+    body {
+        margin: 0 auto;
+        margin-top: 30px;
+        font-family: "Josefin", sans-serif;
+        font-size: 16pt;
+        background-color: #fff;
+        color: #666;
+        width: 80%;
+        border: 1px #000 solid;
+        border-bottom: 5px #25a5a5 solid;
+    }
+    .container {
+        display: flex;
+        flex-direction: row;
+        padding: 0; 
+        margin: 0;
+        margin-bottom: 15px;
+        border-bottom: 5px #25a5a5 solid;
+    }
+    header {
+        background-color: #36d1d1;
+        padding: 20px;
+        /* padding-bottom: 0;
+        margin-bottom: 0; */
+        color: #fff;
+        border-bottom: 2px #666 solid;
+    }
+    h1, h2 {
+        font-size: 300%;
+        font-family: Rancho, cursive;
+        font-weight: normal;
+        margin: 0 auto;
+    }
+    small {
+        font-size: 25%;
+        color: #eee;
+        text-transform: uppercase;
+        font-family: "Josefin", sans-serif;
+}
+    .card {
+        align-items: center;
+        display: flex;
+        margin: 0;
+        padding: 10px;
+        width: 50%;
+        min-width: 200px;
+        background-color: #fff;
+        border-top: 1px #000 solid;
+        color: #666;
+        text-align: center;
+        min-height: 200px;
+    }
+    .card:nth-child(even) {
+        background-color: #eee;
+    }
+    .narrow {width: 10%;}
+    label {
+        text-align: center;
+        display: block;
+        width: 100%;
+    }
+    form {
+        margin: 0 auto;
+    }
+    input, button {
+        font-size: 100%;
+    }
+    button {
+        /* transition-duration: 0.4s; */
+        background-color: #36d1d1;
+        border: 1px #36d1d1 solid;
+        color: #fff;
+        padding: 10px;
+        /* border-radius: 25px; */
+    }
+    button:hover, button:active {
+        background-color: #25a5a5;
+        border-color: #25a5a5;
+    }
+    button:disabled {
+        background-color: #97e8e8;
+        border-color: #36d1d1;
+    }
+    h2 {
+        /* font-family: Rancho; */
+        font-size: 250%;
+        width: 80%;
+        text-align: left;
+        padding: 10px;
+        border: 4px #eee dashed;
+        color: #97e8e8;
+    }
+    #rhymeString { 
+        color: #36d1d1;
+    }
+    footer {
+        /* padding: 0;
+        margin: 0; */
+
+        background-color: #97e8e8;
+        font-size: 80%;
+        /* width: 250px; */
+    }
+    footer a {
+        font-size: 140%;
+        font-family: Rancho;
+        color: #666;
+    }
+    a:hover {
+        color: #000;
+    }
+    footer img {
+        height: 75px;
+        float: left;
+        margin: 5px;
+        margin-top: -12px;
+    }
+    footer p {padding-top: 10px; padding-bottom: 10px;}

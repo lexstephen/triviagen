@@ -5,129 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Random Word</title>
-    
-<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Rancho&display=swap" rel="stylesheet">
-    <style type="text/css">
-    body {
-        margin: 0 auto;
-        margin-top: 30px;
-        font-family: "Josefin", sans-serif;
-        font-size: 16pt;
-        background-color: #fff;
-        color: #666;
-        width: 80%;
-        border: 1px #000 solid;
-        border-bottom: 5px #25a5a5 solid;
-    }
-    .container {
-        display: flex;
-        flex-direction: row;
-        padding: 0; 
-        margin: 0;
-        margin-bottom: 15px;
-        border-bottom: 5px #25a5a5 solid;
-    }
-    header {
-        background-color: #36d1d1;
-        padding: 20px;
-        /* padding-bottom: 0;
-        margin-bottom: 0; */
-        color: #fff;
-        border-bottom: 2px #666 solid;
-    }
-    h1, h2 {
-        font-size: 300%;
-        font-family: Rancho, cursive;
-        font-weight: normal;
-        margin: 0 auto;
-    }
-    small {
-        font-size: 25%;
-        color: #eee;
-        text-transform: uppercase;
-        font-family: "Josefin", sans-serif;
-}
-    .card {
-        align-items: center;
-        display: flex;
-        margin: 0;
-        padding: 10px;
-        width: 50%;
-        min-width: 200px;
-        background-color: #fff;
-        border-top: 1px #000 solid;
-        color: #666;
-        text-align: center;
-        min-height: 200px;
-    }
-    .card:nth-child(even) {
-        background-color: #eee;
-    }
-    .narrow {width: 10%;}
-    label {
-        text-align: center;
-        display: block;
-        width: 100%;
-    }
-    form {
-        margin: 0 auto;
-    }
-    input, button {
-        font-size: 100%;
-    }
-    button {
-        /* transition-duration: 0.4s; */
-        background-color: #36d1d1;
-        border: 1px #36d1d1 solid;
-        color: #fff;
-        padding: 10px;
-        /* border-radius: 25px; */
-    }
-    button:hover, button:active {
-        background-color: #25a5a5;
-        border-color: #25a5a5;
-    }
-    button:disabled {
-        background-color: #97e8e8;
-        border-color: #36d1d1;
-    }
-    h2 {
-        /* font-family: Rancho; */
-        font-size: 250%;
-        width: 80%;
-        text-align: left;
-        padding: 10px;
-        border: 4px #eee dashed;
-        color: #36d1d1;
-    }
-    footer {
-        /* padding: 0;
-        margin: 0; */
-
-        background-color: #97e8e8;
-        font-size: 80%;
-        /* width: 250px; */
-    }
-    footer a {
-        font-size: 140%;
-        font-family: Rancho;
-        color: #666;
-    }
-    a:hover {
-        color: #000;
-    }
-    footer img {
-        height: 75px;
-        float: left;
-        margin: 5px;
-        margin-top: -12px;
-    }
-    footer p {padding-top: 10px; padding-bottom: 10px;}
-    </style>
-    <!-- <link rel="stylesheet" href="bootstrap.min.css"> -->
+    <link rel="stylesheet" href="style.css">
     <script src="https://kit.fontawesome.com/ee4bae3165.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -137,8 +18,7 @@
     <div class="container">
         <div class="card">
             <h2>
-                &gt;
-                <span id="rhymeString"></span>
+                &gt;<span id="rhymeString"></span>
             </h2>
         </div>
         <div class="card">
@@ -146,7 +26,7 @@
                 <label for="inputWord">build a rhyming team name around a topic:</label>
                 <input type="text" class="form-control" id="inputWord">
                 <button type="submit"><i class="fas fa-random"></i></button>
-                <button type="button" id="playLoop"><i class="fa fa-play-circle"></i></button>
+                <button type="button" id="playLoop" disabled="true"><i class="fa fa-play-circle"></i></button>
                 <button type="button" id="pauseLoop"><i class="fa fa-pause-circle"></i></button>
             </form>
         </div>

@@ -11,58 +11,61 @@ $(() => {
 });
 
 wordApp.init = () => {
-    wordApp.baseWord = wordApp.pickRandomWord([]);
-    wordApp.generateRandomName();
-    clearInterval();
-    $('#playLoop').prop('disabled', true);
+    // Populate baseWord with a random starter word from fallbackArray
+    wordApp.baseWord = wordApp.getRandomWord([]);
+    console.log(wordApp.baseWord);
+    wordApp.getRandomName();
+    // $('#playLoop').prop('disabled', true);
     wordApp.$inputWord.prop('placeholder', wordApp.baseWord);
-    // wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 5000);  
     wordApp.loopListener();
-    wordApp.jjaListener();
+    wordApp.submitListener();
 }
 
-wordApp.generateRandomName = () => {
+wordApp.getRandomName = () => {
+    let firstWord, secondWord, thirdWord, secondWordArray, thirdWordArray;
     clearInterval(wordApp.randomWordLoop);
-    let firstWord, secondWord, thirdWord;
-    const starterWordsArray = wordApp.getWords("", {topics: wordApp.baseWord, v: "enwiki"});
+    console.log(wordApp.baseWord);
+    
+    // Chained promises to use the returned words in subsequent requests
+    const starterWordsArray = wordApp.getWords({topics: wordApp.baseWord, v: "enwiki"});
     $.when(starterWordsArray).done((firstSet) => {
-        firstWord = wordApp.pickRandomWord(firstSet);
-        const secondWordArray = wordApp.getWords("", {rel_bga: firstWord, v: "enwiki"});
+        firstWord = wordApp.getRandomWord(firstSet);
+        const secondWordArray = wordApp.getWords({rel_bga: firstWord, v: "enwiki"});
         $.when(secondWordArray).done((secondSet) => {
-            secondWord = wordApp.pickRandomWord(secondSet);
-            const thirdWordArray = wordApp.getWords("", {rel_rhy: secondWord, v: "enwiki"});
+            secondWord = wordApp.getRandomWord(secondSet);
+            const thirdWordArray = wordApp.getWords({rel_rhy: secondWord, v: "enwiki"});
             $.when(thirdWordArray).done((thirdSet) => {
-                thirdWord = wordApp.pickRandomWord(thirdSet);
-                console.log(wordApp.baseWord + ": " + " " + firstWord + " [" + secondWord + "] " + thirdWord);
-                $('#rhymeString').text(`${firstWord} ${secondWord} ${thirdWord}`)
+                thirdWord = wordApp.getRandomWord(thirdSet);
+                $('#rhymeString').text(`${firstWord} ${secondWord} ${thirdWord}`);
+                wordApp.randomWordLoop = setInterval(wordApp.getRandomName, 5000);
             });
         });
     });
-    wordApp.randomWordLoop = setInterval(wordApp.generateRandomName, 5000);
+
+    // Update the div with the generated string and set a new interval
+    $.when(starterWordsArray, secondWordArray, thirdWordArray).done(() => {
+    })
 }
 
-wordApp.pickRandomWord = (result) => {
+// Find a random word from the array of words provided, or pick a random word from the fallbackWords array
+wordApp.getRandomWord = (result) => {
     let randomNumber = Math.floor(Math.random() * result.length);
     if(result[randomNumber] !== undefined) {
         return result[randomNumber].word;
     } else {
-        console.log("fallback");
+        const fallbackWord = wordApp.fallbackWords[Math.floor(Math.random() * wordApp.fallbackWords.length)];
+        console.log("fall", fallbackWord)
+        
         return wordApp.fallbackWords[Math.floor(Math.random() * wordApp.fallbackWords.length)];
     }
 }
-
-wordApp.loopInterval = () => {
-};
 
 wordApp.loopListener = () => {
     $('#playLoop').click(function() {
         $('#playLoop').prop('disabled', true);
         $('#pauseLoop').prop('disabled', false);
-        wordApp.loopInterval();
-        wordApp.generateRandomName();
-        // wordApp.randomWordLoop = setInterval(wordApp.generateRandomName, 5000);     
+        wordApp.getRandomName();
     });
-    
     $('#pauseLoop').click(function() {
         $('#playLoop').prop('disabled', false);
         $('#pauseLoop').prop('disabled', true);
@@ -70,15 +73,18 @@ wordApp.loopListener = () => {
     });
 };
 
-wordApp.jjaListener = () => {
+wordApp.submitListener = () => {
     $('#nounForm').submit((ev) => {
         ev.preventDefault();
         clearInterval(wordApp.randomWordLoop);
         // $('#rhymeString').empty();
         if(wordApp.$inputWord.val() !== "") {
+            console.log("input not empty");
             wordApp.baseWord = wordApp.$inputWord.val();    
+        } else {
+            console.log("")
         }
-        wordApp.generateRandomName(wordApp.baseWord);
+        wordApp.getRandomName(wordApp.baseWord);
     })
 }
 
@@ -89,25 +95,8 @@ wordApp.requestObject = {
     data: {}
 }
 
-// wordApp.buildRequest = (params) => {
-//     // wordApp.requestObject.data = {};                
-//     wordApp.requestObject.data = params;                
-//     // for (let key in params) {
-//     //     wordApp.requestObject.data[key] = params[key];
-//     // }
-//     wordApp.getWord();
-// }
-
-wordApp.getWords = (word, params) => {   
-    // console.log("getWds");
-    // console.log("title",$('.lead').text());         
+wordApp.getWords = (params) => {   
     wordApp.requestObject.data = params; 
     const result = $.ajax(wordApp.requestObject)
-    // .then(
-    //     (result) => {
-    //         // const randomNumber = 0;
-    //         
-    //     }
-    //     );
     return result;
 }
