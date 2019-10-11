@@ -5,77 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Random Word</title>
-    <link rel="stylesheet" href="bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rancho&display=swap" rel="stylesheet">
     <style type="text/css">
     body {
+        margin: 0 auto;
         margin-top: 30px;
+        font-family: "Josefin", "Helvetica Neue", Arial, sans-serif;
+        font-size: 16pt;
+        background-color: #fff;
+        color: #666;
+        width: 80%;
+        border: 1px #000 solid;
+        border-bottom: 5px #25a5a5 solid;
     }
     .container {
+        display: flex;
+        flex-direction: row;
+        padding: 0; 
+        margin: 0;
         margin-bottom: 15px;
+        border-bottom: 5px #25a5a5 solid;
     }
+    header {
+        background-color: #36d1d1;
+        padding: 20px;
+        /* padding-bottom: 0;
+        margin-bottom: 0; */
+        color: #fff;
+        border-bottom: 2px #666 solid;
+    }
+    h1, h2 {
+        margin: 0 auto;
+    }
+    .card {
+        align-items: center;
+        display: flex;
+        margin: 0;
+        padding: 10px;
+        width: 50%;
+        min-width: 200px;
+        background-color: #fff;
+        color: #666;
+        text-align: center;
+        height: 200px;
+    }
+    .card:nth-child(even) {
+        background-color: #eee;
+    }
+    label {
+        text-align: center;
+        display: block;
+    }
+    form {
+        margin: 0 auto;
+    }
+    input, button {
+        font-size: 100%;
+    }
+    .btn {
+        /* transition-duration: 0.4s; */
+        background-color: #36d1d1;
+        border: 1px #36d1d1 solid;
+        color: #fff;
+        padding: 10px;
+        border-radius: 25px;
+    }
+    .btn:hover, .btn:active {
+        background-color: #25a5a5;
+        border-color: #25a5a5;
+    }
+    .btn:disabled {
+        background-color: #97e8e8;
+        border-color: #36d1d1;
+    }
+    h2 {
+        font-family: Rancho;
+        font-size: 250%;
+        width: 80%;
+        text-align: left;
+        padding: 10px;
+        border: 4px #eee dashed;
+        color: #36d1d1;
+    }
+    footer {
+        /* padding: 0;
+        margin: 0; */
+
+        background-color: #97e8e8;
+        font-size: 80%;
+        /* width: 250px; */
+    }
+    footer a {
+        font-size: 140%;
+        font-family: Rancho;
+        color: #666;
+    }
+    a:hover {
+        color: #000;
+    }
+    footer img {
+        height: 75px;
+        float: left;
+        margin: 5px;
+        margin-top: -12px;
+    }
+    footer p {padding-top: 10px; padding-bottom: 10px;}
     </style>
+    <!-- <link rel="stylesheet" href="bootstrap.min.css"> -->
     <script src="https://kit.fontawesome.com/ee4bae3165.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <header>
+        <h1>LEXICON <small>team name generator</small></h1>
+    </header>
     <div class="container">
-        <div class="row">
-            <div class="col">
-            <header>
-                <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-                    <h1 class="navbar-brand">LEXICON <small>team name generator</small></h1>
-                </nav>
-            </header>
-            </div>
+        <div class="card">
+            <h2>
+                &gt;
+                <span id="rhymeString"></span>
+            </h2>
+        </div>
+        <div class="card">
+            <form id="nounForm">
+                <label for="inputWord">build a rhyming team name around a topic:</label>
+                <input type="text" class="form-control" id="inputWord"\>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-random"></i></button>
+                <button type="button" class="btn btn-primary" id="playLoop"><i class="fa fa-play-circle" aria-hidden="true" id="playLoop"></i></button>
+                <button type="button" class="btn btn-primary" id="pauseLoop"><i class="fa fa-pause-circle" aria-hidden="true"></i></button>
+            </form>
         </div>
     </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="jumbotron">
-                    <!-- <div class="card text-white bg-success mb-3" style="max-width: 50rem;">
-                        <div class="card-body">
-                            <h4 class="card-title display-4">
-                                &gt;<span id="randomString"></span>
-                            </h4>
-                            <button type="button" class="btn btn-primary active" id="playLoop" disabled="disabled"><i class="fa fa-play-circle" aria-hidden="true" id="playLoop"></i></button>
-                            <button type="button" class="btn btn-primary" id="pauseLoop"><i class="fa fa-pause-circle" aria-hidden="true"></i></button>
-
-                        </div>
-                    </div> -->
-
-                    <div class="card text-white bg-success mb-3" style="max-width: 50rem;">
-                        <div class="card-body">
-                            <h4 class="card-title display-4">
-                                &gt;<span id="rhymeString"></span>
-                            </h4>
-                            <button type="button" class="btn btn-primary active" id="playLoop" disabled="disabled"><i class="fa fa-play-circle" aria-hidden="true" id="playLoop"></i></button>
-                            <button type="button" class="btn btn-primary" id="pauseLoop"><i class="fa fa-pause-circle" aria-hidden="true"></i></button>
-
-                        </div>
-                    </div>
-
-                    <div class="card border-success mb-3" style="max-width: 30rem;">
-                        <div class="card-body">
-                            <form id="nounForm">
-                                <fieldset>
-                                    <legend class="text-primary">build a rhyming team name around a topic:</legend>
-                                    <div class="form-group">
-                                        <label for="inputWord" class="sr-only">Enter a noun</label>
-                                        <input type="text" class="form-control" id="inputWord" placeholder="music">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <footer>
-                    <p>This confusing string of words has been brought to you thanks to the <a href="https://www.datamuse.com/api/">Datamuse API</a>, <a href="https://bootswatch.com/sketchy/">Sketchy</a>, & <a href="http://lexy.dev">Lexy</a></p>
-                </footer>
-            </div>
-        </div>
-    </div>
+    <footer>
+        <img src="https://lexy.dev/static/media/pixel-lex-stand.e8cf9bbe.png" alt="Caricature of Lexy" />
+        <p>This confusing string of words has been brought to you thanks to the <a href="https://www.datamuse.com/api/">Datamuse API</a> & <a href="http://lexy.dev">Lexy</a></p>
+    </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="scripts.js"></script>
 </body>

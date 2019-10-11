@@ -1,16 +1,21 @@
 
 const wordApp = {};
 wordApp.url = "https://api.datamuse.com/words";
-wordApp.baseWord = "music";
+wordApp.baseWord = "";
 wordApp.randomWordLoop;
+wordApp.fallbackWords = ["toronto", "raccoon", "love", "champions", "monster", "celebrity", "fame", "gender"];
+wordApp.$inputWord = $('#inputWord');
 
 $(() => {
     wordApp.init();
 });
 
 wordApp.init = () => {
+    wordApp.baseWord = wordApp.pickRandomWord([]);
     let wordString;
     wordApp.generateRandomName();
+    clearInterval();
+    wordApp.$inputWord.prop('placeholder', wordApp.baseWord);
     // wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 5000);  
     wordApp.loopListener();
     wordApp.jjaListener();
@@ -21,27 +26,28 @@ wordApp.generateRandomName = () => {
     let firstWord, secondWord, thirdWord;
     const starterWordsArray = wordApp.getWords("", {topics: wordApp.baseWord, v: "enwiki"});
     $.when(starterWordsArray).done((firstSet) => {
-        firstWord = wordApp.pickRandomIndex(firstSet);
+        firstWord = wordApp.pickRandomWord(firstSet);
         const secondWordArray = wordApp.getWords("", {rel_bga: firstWord, v: "enwiki"});
         $.when(secondWordArray).done((secondSet) => {
-            secondWord = wordApp.pickRandomIndex(secondSet);
-                const thirdWordArray = wordApp.getWords("", {rel_rhy: secondWord, v: "enwiki"});
-                $.when(thirdWordArray).done((thirdSet) => {
-                    thirdWord = wordApp.pickRandomIndex(thirdSet);
-                    console.log(wordApp.baseWord + ": " + " " + firstWord + " [" + secondWord + "] " + thirdWord);
-                    $('#rhymeString').text(`${firstWord} ${secondWord} ${thirdWord}`)
-                });
+            secondWord = wordApp.pickRandomWord(secondSet);
+            const thirdWordArray = wordApp.getWords("", {rel_rhy: secondWord, v: "enwiki"});
+            $.when(thirdWordArray).done((thirdSet) => {
+                thirdWord = wordApp.pickRandomWord(thirdSet);
+                console.log(wordApp.baseWord + ": " + " " + firstWord + " [" + secondWord + "] " + thirdWord);
+                $('#rhymeString').text(`${firstWord} ${secondWord} ${thirdWord}`)
+            });
         });
     });
     wordApp.randomWordLoop = setInterval(wordApp.generateRandomName, 5000);
 }
 
-wordApp.pickRandomIndex = (result) => {
+wordApp.pickRandomWord = (result) => {
     let randomNumber = Math.floor(Math.random() * result.length);
     if(result[randomNumber] !== undefined) {
         return result[randomNumber].word;
     } else {
-        return "toronto";
+        console.log("fallback");
+        return wordApp.fallbackWords[Math.floor(Math.random() * wordApp.fallbackWords.length)];
     }
 }
 
@@ -53,7 +59,6 @@ wordApp.loopListener = () => {
         $('#playLoop').prop('disabled', true);
         $('#pauseLoop').prop('disabled', false);
         wordApp.loopInterval();
-        $('#rhymeString').empty();
         wordApp.generateRandomName();
         // wordApp.randomWordLoop = setInterval(wordApp.generateRandomName, 5000);     
     });
@@ -69,8 +74,11 @@ wordApp.jjaListener = () => {
     $('#nounForm').submit((ev) => {
         ev.preventDefault();
         clearInterval(wordApp.randomWordLoop);
-        $('#rhymeString').empty();
-        wordApp.baseWord = $('#inputWord').val();    
+        $('#playLoop').prop('disabled', true);
+        // $('#rhymeString').empty();
+        if(wordApp.$inputWord.val() !== "") {
+            wordApp.baseWord = wordApp.$inputWord.val();    
+        }
         wordApp.generateRandomName(wordApp.baseWord);
     })
 }
