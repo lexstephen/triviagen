@@ -66,6 +66,7 @@
     .card:nth-child(even) {
         background-color: #eee;
     }
+    .narrow {width: 10%;}
     label {
         text-align: center;
         display: block;
@@ -83,7 +84,7 @@
         border: 1px #36d1d1 solid;
         color: #fff;
         padding: 10px;
-        border-radius: 25px;
+        /* border-radius: 25px; */
     }
     button:hover, button:active {
         background-color: #25a5a5;
@@ -143,14 +144,14 @@
         <div class="card">
             <form id="nounForm">
                 <label for="inputWord">build a rhyming team name around a topic:</label>
-                <input type="text" class="form-control" id="inputWord"\>
+                <input type="text" class="form-control" id="inputWord">
                 <button type="submit"><i class="fas fa-random"></i></button>
-                <button type="button" id="playLoop"><i class="fa fa-play-circle" aria-hidden="true"></i></button>
-                <button type="button" id="pauseLoop"><i class="fa fa-pause-circle" aria-hidden="true"></i></button>
+                <button type="button" id="playLoop"><i class="fa fa-play-circle"></i></button>
+                <button type="button" id="pauseLoop"><i class="fa fa-pause-circle"></i></button>
             </form>
         </div>
     </div>
-    <div class="container">
+    <!-- <div class="container">
         <div class="card">
             <section class="nameForm">   
                 <div id="nameInputs">
@@ -168,23 +169,24 @@
                     </div>
                 </div>
             </section>
+        </div>
+        <div class="card narrow">
             <button id="increaseNames" type="button" class="nameForm"><i class="fas fa-user-plus"></i></button>
-        
         </div>
         <div class="card">
                 <label for="teamMaxSize">Team max size:</label>
                 <input type="number" min="1"  id="teamMaxSize">
         </div>
-        <div class="card">
+        <div class="card narrow">
             <button type="submit" value="Generate teams!"><i class="fas fa-random"></i></button>        
         </div>
         <div class="card">
-                <section class="nameDisplayContainer">
-                    <section id="nameDisplay"></section>
-                </section>
-                <button id="nameEdit" type="button" class="nameDisplayContainer"><i class="fas fa-edit"></i></button>
+            <section class="nameDisplayContainer">
+                <section id="nameDisplay"></section>
+            </section>
+            <button id="nameEdit" type="button" class="nameDisplayContainer"><i class="fas fa-edit"></i></button>
         </div>
-    </div>
+    </div> -->
 <footer>
         <img src="https://lexy.dev/static/media/pixel-lex-stand.e8cf9bbe.png" alt="Caricature of Lexy" />
         <p>This confusing string of words has been brought to you thanks to the <a href="https://www.datamuse.com/api/">Datamuse API</a> & <a href="http://lexy.dev">Lexy</a></p>
