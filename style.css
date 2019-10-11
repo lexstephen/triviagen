@@ -50,6 +50,8 @@
         text-align: center;
         min-height: 200px;
     }
+
+    
     .card:nth-child(even) {
         background-color: #eee;
     }
@@ -116,3 +118,11 @@
         margin-top: -12px;
     }
     footer p {padding-top: 10px; padding-bottom: 10px;}
+
+
+
+
+    @media (max-width: 620px) {
+        .container {max-width: 50%;}
+        .card {max-width: 100%;}
+    }

@@ -89,14 +89,17 @@ wordApp.submitListener = () => {
 }
 
 wordApp.requestObject = {
-    url: wordApp.url,
-    method: "GET",
-    dataType: "json",
-    data: {}
+    url: 'http://proxy.hackeryou.com',
+    dataType: 'json',
+    method:'GET',
+    data: {
+        reqUrl: wordApp.url,
+        params: {}
+    }
 }
 
 wordApp.getWords = (params) => {   
-    wordApp.requestObject.data = params; 
+    wordApp.requestObject.data.params = params; 
     const result = $.ajax(wordApp.requestObject)
     return result;
 }
