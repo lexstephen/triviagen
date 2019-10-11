@@ -3,7 +3,7 @@ const wordApp = {};
 wordApp.url = "https://api.datamuse.com/words";
 wordApp.baseWord = "";
 wordApp.randomWordLoop;
-wordApp.fallbackWords = ["toronto", "raccoon", "love", "champions", "monster", "celebrity", "fame", "gender"];
+wordApp.fallbackWords = ["toronto", "raccoon", "canada", "travel", "food", "intelligence", "animals", "dogs", "cats", "rap", "love", "champions", "monster", "celebrity", "fame", "gender"];
 wordApp.$inputWord = $('#inputWord');
 
 $(() => {
@@ -12,9 +12,9 @@ $(() => {
 
 wordApp.init = () => {
     wordApp.baseWord = wordApp.pickRandomWord([]);
-    let wordString;
     wordApp.generateRandomName();
     clearInterval();
+    $('#playLoop').prop('disabled', true);
     wordApp.$inputWord.prop('placeholder', wordApp.baseWord);
     // wordApp.randomWordLoop = setInterval(wordApp.loopInterval, 5000);  
     wordApp.loopListener();
@@ -74,7 +74,6 @@ wordApp.jjaListener = () => {
     $('#nounForm').submit((ev) => {
         ev.preventDefault();
         clearInterval(wordApp.randomWordLoop);
-        $('#playLoop').prop('disabled', true);
         // $('#rhymeString').empty();
         if(wordApp.$inputWord.val() !== "") {
             wordApp.baseWord = wordApp.$inputWord.val();    
