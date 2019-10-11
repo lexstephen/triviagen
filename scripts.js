@@ -89,7 +89,7 @@ wordApp.submitListener = () => {
 }
 
 wordApp.requestObject = {
-    url: 'http://proxy.hackeryou.com',
+    url: 'https://proxy.hackeryou.com',
     dataType: 'json',
     method:'GET',
     data: {
