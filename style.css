@@ -9,14 +9,6 @@
         border: 1px #000 solid;
         border-bottom: 5px #25a5a5 solid;
     }
-    .container {
-        display: flex;
-        flex-direction: row;
-        padding: 0; 
-        margin: 0;
-        margin-bottom: 15px;
-        border-bottom: 5px #25a5a5 solid;
-    }
     header {
         background-color: #36d1d1;
         padding: 20px;
@@ -36,33 +28,16 @@
         color: #eee;
         text-transform: uppercase;
         font-family: "Josefin", sans-serif;
-}
-    .card {
-        align-items: center;
-        display: flex;
-        margin: 0;
-        padding: 10px;
-        width: 50%;
-        min-width: 200px;
-        background-color: #fff;
-        border-top: 1px #000 solid;
-        color: #666;
-        text-align: center;
-        min-height: 200px;
     }
-
-    
-    .card:nth-child(even) {
-        background-color: #eee;
-    }
-    .narrow {width: 10%;}
     label {
         text-align: center;
         display: block;
         width: 100%;
+        font-weight: bold;
+        color: #000;
     }
     form {
-        margin: 0 auto;
+        margin: 5% auto;
     }
     input, button {
         font-size: 100%;
@@ -89,19 +64,13 @@
         width: 80%;
         text-align: left;
         padding: 10px;
+        margin: 5%;
         border: 4px #eee dashed;
         color: #97e8e8;
     }
-    #rhymeString { 
-        color: #36d1d1;
-    }
     footer {
-        /* padding: 0;
-        margin: 0; */
-
         background-color: #97e8e8;
         font-size: 80%;
-        /* width: 250px; */
     }
     footer a {
         font-size: 140%;
@@ -117,12 +86,46 @@
         margin: 5px;
         margin-top: -12px;
     }
-    footer p {padding-top: 10px; padding-bottom: 10px;}
-
-
-
-
+    footer p {
+        padding-top: 10px; 
+        padding-bottom: 10px;
+    }
+    #rhymeString { 
+        color: #36d1d1;
+    }
+    .container {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        padding: 0; 
+        margin: 0;
+        margin-bottom: 15px;
+        border-bottom: 5px #25a5a5 solid;
+    }
+    .card {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        width: 50%;
+        background-color: #fff;
+        border-top: 1px #000 solid;
+        color: #666;
+        text-align: center;
+        min-height: 200px;
+    }
+    .card:nth-child(even) {
+        border-left: 2px #000 solid;
+        background-image: linear-gradient(#fff, #ddd);
+    }
     @media (max-width: 620px) {
-        .container {max-width: 50%;}
-        .card {max-width: 100%;}
+        .container {
+            flex-direction: column;
+        }
+        .card {
+            width: 100%;
+            border: 0;
+        }
+        .card:nth-child(even) {
+            border: 0;
+        }
     }

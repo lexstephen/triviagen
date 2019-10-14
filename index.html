@@ -31,9 +31,10 @@
             </form>
         </div>
     </div>
-    <!-- <div class="container">
+    <div class="container">
         <div class="card">
-            <section class="nameForm">   
+            <form id="teamForm">
+            <div class="nameForm">   
                 <div id="nameInputs">
                     <div class="nameBox">
                         <label for="name0"> Name: </label>
@@ -48,25 +49,22 @@
                     <i class="fas fa-user"></i> <input type="text" id="name2">
                     </div>
                 </div>
-            </section>
-        </div>
-        <div class="card narrow">
+            </div>
+            <div>
             <button id="increaseNames" type="button" class="nameForm"><i class="fas fa-user-plus"></i></button>
         </div>
+    <div>            <label for="teamMaxSize">Team max size:</label>
+            <input type="number" min="1"  id="teamMaxSize">
+        </div><div><button type="submit" value="Generate teams!"><i class="fas fa-random"></i></button>        
+        </div><div><button id="nameEdit" type="button" class="nameDisplayContainer"><i class="fas fa-edit"></i></button>
+        </div>    </form>
+        </div>
         <div class="card">
-                <label for="teamMaxSize">Team max size:</label>
-                <input type="number" min="1"  id="teamMaxSize">
-        </div>
-        <div class="card narrow">
-            <button type="submit" value="Generate teams!"><i class="fas fa-random"></i></button>        
-        </div>
-        <div class="card">
-            <section class="nameDisplayContainer">
-                <section id="nameDisplay"></section>
-            </section>
-            <button id="nameEdit" type="button" class="nameDisplayContainer"><i class="fas fa-edit"></i></button>
-        </div>
-    </div> -->
+                <section class="nameDisplayContainer">
+                        <section id="nameDisplay"></section>
+                    </section>
+                </div>
+    </div>
 <footer>
         <img src="https://lexy.dev/static/media/pixel-lex-stand.e8cf9bbe.png" alt="Caricature of Lexy" />
         <p>This confusing string of words has been brought to you thanks to the <a href="https://www.datamuse.com/api/">Datamuse API</a> & <a href="http://lexy.dev">Lexy</a></p>
