@@ -1,84 +1,94 @@
     body {
-        margin: 0 auto;
-        margin-top: 30px;
         font-family: "Josefin", sans-serif;
         font-size: 16pt;
-        background-color: #fff;
-        color: #666;
-        width: 80%;
-        border: 1px #000 solid;
-        border-bottom: 5px #25a5a5 solid;
+        background-color: #fff7b9;
+        color: #001f3f;
+        /* border-bottom: 5px #001f3f solid;
+        border-left: 5px #001f3f solid;
+        border-top: 5px #0074D9 solid; */
     }
     header {
-        background-color: #36d1d1;
-        padding: 20px;
+        /* background-color: #0074D9; */
+        /* padding: 20px; */
         /* padding-bottom: 0;
         margin-bottom: 0; */
-        color: #fff;
-        border-bottom: 2px #666 solid;
+        color: #0074D9;
+        margin: 0 auto;
+        width: 66%;
+        padding: 0;
+        /* border-bottom: 2px #666 solid; */
     }
     h1, h2 {
         font-size: 300%;
         font-family: Rancho, cursive;
         font-weight: normal;
-        margin: 0 auto;
+        margin: 0;
+        margin-left: 10px;
+        color: #001f3f;
     }
+    /* header h1 { color: #fff;} */
     small {
         font-size: 25%;
-        color: #eee;
+        /* color: #eee; */
         text-transform: uppercase;
         font-family: "Josefin", sans-serif;
     }
     label {
-        text-align: center;
+        /* text-align: center; */
         display: block;
-        width: 100%;
+        /* width: 100%; */
         font-weight: bold;
-        color: #000;
+        color: #001f3f;
     }
     form {
         margin: 5% auto;
     }
     input, button {
         font-size: 100%;
+        padding: 3px;
+        margin: 2px;
+        border: 1px #001f3f solid;
     }
     button {
         /* transition-duration: 0.4s; */
-        background-color: #36d1d1;
-        border: 1px #36d1d1 solid;
+        background-color: #001f3f;
+        border: 1px #001f3f solid;
         color: #fff;
         padding: 10px;
         /* border-radius: 25px; */
     }
     button:hover, button:active {
-        background-color: #25a5a5;
-        border-color: #25a5a5;
+        background-color: #0074D9;
+        border-color: #0074D9;
     }
     button:disabled {
-        background-color: #97e8e8;
-        border-color: #36d1d1;
+        background-color: #7FDBFF;
+        border-color: #0074D9;
     }
     h2 {
         /* font-family: Rancho; */
-        font-size: 250%;
-        width: 80%;
+        font-size: 300%;
+        /* width: 80%; */
         text-align: left;
         padding: 10px;
         margin: 5%;
-        border: 4px #eee dashed;
-        color: #97e8e8;
+        /* border: 4px #eee dashed; */
+        /* color: #7FDBFF; */
     }
     footer {
-        background-color: #97e8e8;
+        background-color: #0074D9;
+        color: #fff;
         font-size: 80%;
+        width: 66%;
+        margin: 0 auto;
     }
     footer a {
         font-size: 140%;
         font-family: Rancho;
-        color: #666;
+        color: #fff;
     }
     a:hover {
-        color: #000;
+        color: #001f3f;
     }
     footer img {
         height: 75px;
@@ -91,41 +101,84 @@
         padding-bottom: 10px;
     }
     #rhymeString { 
-        color: #36d1d1;
+        color: #001f3f;
+    }
+    .fas {
+        color: #0074D9;
+        margin: 10px;
+    }
+    button .fas {
+        color: #fff;
+    }
+    .visually-hidden {
+        position: absolute !important;
+        height: 1px; 
+        width: 1px;
+        overflow: hidden;
+        clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+        clip: rect(1px, 1px, 1px, 1px);
+        white-space: nowrap; /* added line */
+    }
+    .wrapper {
+        border: 5px #0074D9 solid;
+        background-color: #fff;
+        margin: 0 auto;
+        /* margin-top: 30px; */
+        width: 66%;
+    }
+    #nameDisplay {
+        display: flex;
+        flex-direction: row;
+    }
+    #nameDisplay .team {
+        /* display: flex; */
+        min-width: 30%;
     }
     .container {
         display: flex;
-        width: 100%;
+        /* width: 100%; */
         flex-direction: row;
         padding: 0; 
         margin: 0;
-        margin-bottom: 15px;
-        border-bottom: 5px #25a5a5 solid;
+        /* margin-bottom: 15px; */
+        border-bottom: 5px #7FDBFF solid;
     }
     .card {
-        display: flex;
+        /* display: flex; */
         margin: 0;
-        padding: 0;
-        width: 50%;
+        padding: 2%;
+        width: 48%;
         background-color: #fff;
-        border-top: 1px #000 solid;
-        color: #666;
-        text-align: center;
-        min-height: 200px;
+        /* border-top: 1px #001f3f solid; */
+        color: #001f3f;
+        /* text-align: center; */
+    }
+    .team {
+        width: 50%;
     }
     .card:nth-child(even) {
-        border-left: 2px #000 solid;
-        background-image: linear-gradient(#fff, #ddd);
+        /* border-left: 2px #001f3f solid; */
+        background-image: linear-gradient(to right, #fff, #7FDBFF);
     }
+    .card:nth-child(odd) {
+        /* border-left: 2px #001f3f solid; */
+        background-image: linear-gradient(to left, #fff, #7FDBFF);
+    }
+    #nameInputs {display: flex; flex-wrap: wrap;}
     @media (max-width: 620px) {
         .container {
             flex-direction: column;
         }
-        .card {
+        .card, .nameBox, .team {
             width: 100%;
             border: 0;
         }
         .card:nth-child(even) {
             border: 0;
+            background-image: linear-gradient( #fff, #7FDBFF);
+        }
+        .card:nth-child(odd) {
+            border: 0;
+            background-image: linear-gradient( #7FDBFF, #fff);
         }
     }

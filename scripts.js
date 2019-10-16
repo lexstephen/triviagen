@@ -2,6 +2,8 @@
 $(function() {
     const wordApp = {};
     const teamApp = {};
+    const quizApp = {};
+
     wordApp.url = "https://api.datamuse.com/words";
     wordApp.baseWord;
     wordApp.randomWordLoop;
@@ -9,24 +11,28 @@ $(function() {
     wordApp.$inputWord = $('#inputWord');
 
     teamApp.$nameDisplayContainer = $('.nameDisplayContainer');
-
     // determine what number of name inputs exist
     teamApp.nameCount = $('#nameInputs input[type="text"]').length;
-
-    // let $numberOfTeams = $('#numberOfTeams');
-
     // set a default team max size for page loads
     teamApp.$teamMaxSize = $('#teamMaxSize');
-
     // initialize arrays to hold names and groups of teams
     teamApp.names = [];
     teamApp.teamNames = [];
     teamApp.teamSizeValues = [];
 
+
+
+
     $(() => {
         wordApp.init();
         teamApp.init();
+        quizApp.init();
     });
+
+
+    quizApp.init = () => {
+quizApp.getQuestions();
+    }
 
     teamApp.init = () => {
         teamApp.$teamMaxSize.val("3");
@@ -41,6 +47,29 @@ $(function() {
         wordApp.$inputWord.prop('placeholder', wordApp.baseWord);
         wordApp.setListeners();
     }
+
+quizApp.getQuestions = () => {
+    const questionArray = $.ajax({
+        url: 'https://opentdb.com/api.php',
+        dataType: 'json',
+        method:'GET',
+        data: {
+            amount: 5,
+            type: 'multiple',
+        }
+    });
+
+    $.when(questionArray).done((questions) => {
+        console.log(questions);
+    })
+}
+
+
+
+wordApp.getWords = (params) => {   
+    wordApp.requestObject.data.params = params; 
+}
+
 
     wordApp.getRandomName = () => {
         clearInterval(wordApp.randomWordLoop);
@@ -77,15 +106,15 @@ $(function() {
     }
 
     wordApp.setListeners = () => {
-        $('#playLoop').click(function() {
-            $('#playLoop').prop('disabled', true);
-            $('#pauseLoop').prop('disabled', false);
-            clearInterval(wordApp.randomWordLoop);
-            wordApp.getRandomName();
-        });
+        // $('#playLoop').click(function() {
+        //     // $('#playLoop').prop('disabled', true);
+        //     // $('#pauseLoop').prop('disabled', false);
+        //     clearInterval(wordApp.randomWordLoop);
+        //     wordApp.getRandomName();
+        // });
         $('#pauseLoop').click(function() {
-            $('#playLoop').prop('disabled', false);
-            $('#pauseLoop').prop('disabled', true);
+            // $('#playLoop').prop('disabled', false);
+            // $('#pauseLoop').prop('disabled', true);
             clearInterval(wordApp.randomWordLoop);
         });
         $('#nounForm').submit((ev) => {
@@ -120,9 +149,7 @@ $(function() {
     teamApp.setListeners = () => {
         // watch for click to add extra name inputs
         $('#increaseNames').on('click', () => {
-            const listItem = `<label for="name${teamApp.nameCount}" class="visually-hidden">Name: </label>
-            <i class="fas fa-user"></i> <input type="text" id="name${teamApp.nameCount}">    
-            <br>`;
+            const listItem = `<div class="nameBox"><i class="fas fa-user"></i> <input type="text" id="name${teamApp.nameCount}"></div>`;
             $('#nameInputs').append(listItem);
             teamApp.nameCount++;
         });
@@ -248,16 +275,17 @@ $(function() {
 
     // build and set the HTML that shows the generated teams 
     teamApp.printTeams = () => {
-        let html = `<div class="teams"><div class="teamgroup">`;
+        let html = ``;
+        // let html = `<div class="teams"><div class="teamgroup">`;
         for (x = 0; x < teamApp.teamNames.length; x++) {
-            html += `<div class="team"><h3>Team ${x+1}</h3>
-            <ul>`;
+            html += `<div class="team"><h2>team ${x+1}</h2>
+            <ul class="fa-ul">`;
             for (y = 0; y < teamApp.teamNames[x].length; y++) {
-            html += `<li>${teamApp.teamNames[x][y]}`;
+            html += `<li><span class="fa-li"><i class="fas fa-user"></i></span> ${teamApp.teamNames[x][y]}</li>`;
             }
             html += `</ul></div>`;
         }
-        html += `</div></div>`;
+        // html += `</div></div>`;
         $('#nameDisplay').html(html);
     }
 });
