@@ -12,6 +12,9 @@
         /* padding: 20px; */
         /* padding-bottom: 0;
         margin-bottom: 0; */
+        /* color: #0074D9; */
+        
+        border-bottom: 5px #0074D9 solid;
         color: #0074D9;
         margin: 0 auto;
         width: 66%;
@@ -26,7 +29,7 @@
         margin-left: 10px;
         color: #001f3f;
     }
-    /* header h1 { color: #fff;} */
+    /* header h1 { color: #0074D9;} */
     small {
         font-size: 25%;
         /* color: #eee; */
@@ -47,6 +50,7 @@
         font-size: 100%;
         padding: 3px;
         margin: 2px;
+        height: 45px;
         border: 1px #001f3f solid;
     }
     button {
@@ -108,6 +112,7 @@
         margin: 10px;
     }
     button .fas {
+        margin: 0;
         color: #fff;
     }
     .visually-hidden {
@@ -120,8 +125,8 @@
         white-space: nowrap; /* added line */
     }
     .wrapper {
-        border: 5px #0074D9 solid;
-        background-color: #fff;
+        /* border: 5px #0074D9 solid; */
+        /* background-color: #fff; */
         margin: 0 auto;
         /* margin-top: 30px; */
         width: 66%;
@@ -134,14 +139,25 @@
         /* display: flex; */
         min-width: 30%;
     }
+    form {
+        margin: 0;
+    }
+    /* #teamForm {
+        display: flex;
+        align-items: stretch;
+    }
+    #teamForm div {
+        align-items: baseline;
+    height: 100%;} */
     .container {
+        /* border: 5px #0074D9 solid; */
         display: flex;
         /* width: 100%; */
         flex-direction: row;
         padding: 0; 
         margin: 0;
         /* margin-bottom: 15px; */
-        border-bottom: 5px #7FDBFF solid;
+        /* border-bottom: 5px #7FDBFF solid; */
     }
     .card {
         /* display: flex; */
