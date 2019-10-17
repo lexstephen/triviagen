@@ -38,11 +38,14 @@
     }
     label {
         /* text-align: center; */
-        display: block;
+        /* display: block; */
         /* width: 100%; */
         font-weight: bold;
         color: #001f3f;
     }
+    .radioLabel { display: inline-block; font-weight: normal;}
+    .radioSet {display: block;}
+    .radioSet input {height: auto;}
     form {
         margin: 5% auto;
     }
@@ -168,6 +171,9 @@
         /* border-top: 1px #001f3f solid; */
         color: #001f3f;
         /* text-align: center; */
+    }
+    .double {
+        width: 96%;
     }
     .team {
         width: 50%;

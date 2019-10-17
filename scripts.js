@@ -20,7 +20,8 @@ $(function() {
     teamApp.teamNames = [];
     teamApp.teamSizeValues = [];
 
-
+    quizApp.score = 0;
+    quizApp.questions = [];
 
 
     $(() => {
@@ -31,7 +32,8 @@ $(function() {
 
 
     quizApp.init = () => {
-quizApp.getQuestions();
+    quizApp.getQuestions();
+// console.log(quizApp.questions);
     }
 
     teamApp.init = () => {
@@ -48,6 +50,35 @@ quizApp.getQuestions();
         wordApp.setListeners();
     }
 
+    class Question {
+        constructor(question, options, correct, questionNumber) {
+            this.question = question;
+            this.options = options;
+            this.correct = correct;
+            this.questionNumber = questionNumber;
+        };
+        calculate(selection) {
+            if(selection === this.correct) {
+                quizApp.score++;
+                console.log("correct")
+            } else {
+                console.log("false")
+            }
+        };
+        print() {
+            console.log(this.options);
+            let html = `
+            <h4>${this.question}</h4>`;
+            for (let option in this.options) {
+                html += `<span class="radioSet"><input type="radio" id="q${this.questionNumber}__${option}" name="drone" value="${this.options[option]}"
+                checked> <label class="radioLabel" for="q${this.questionNumber}__${option}">${this.options[option]}</label></span>`
+                // html += `<li></li>`
+            }
+            // html += `</ul>`
+            return html;
+        }
+    };
+
 quizApp.getQuestions = () => {
     const questionArray = $.ajax({
         url: 'https://opentdb.com/api.php',
@@ -60,7 +91,25 @@ quizApp.getQuestions = () => {
     });
 
     $.when(questionArray).done((questions) => {
-        console.log(questions);
+        let count = 0;
+        questions.results.forEach((result) => {
+            const options = result.incorrect_answers;
+            const rand = Math.floor(Math.random() * options.length);
+            const temp = options[rand];
+            options[rand] = result.correct_answer;
+            options.push(temp);
+            console.log(options);
+            q = new Question(result.question, options, result.correct_answer, count);
+            // q.calculate("bop");
+count++;
+console.log(count);
+        // console.log(result);
+        $('#questionDisplay').append(q.print());
+    });
+
+    // $('#questionDisplay').append(`eeee`);
+
+    // return quizApp.questions;
     })
 }
 
