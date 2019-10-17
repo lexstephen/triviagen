@@ -32,8 +32,7 @@ $(function() {
 
 
     quizApp.init = () => {
-    quizApp.getQuestions();
-// console.log(quizApp.questions);
+        quizApp.getQuestions();
     }
 
     teamApp.init = () => {
@@ -57,27 +56,73 @@ $(function() {
             this.correct = correct;
             this.questionNumber = questionNumber;
         };
-        calculate(selection) {
-            if(selection === this.correct) {
+        calculate(selection, questionNumber) {
+            console.log(selection);
+            console.log(this.correct);
+            if(selection == this.correct) {
                 quizApp.score++;
                 console.log("correct")
+                $('#quizScore').text(`${quizApp.score} / ${this.options.length + 1}`);
+                // for (let num in this.options) {
+                //     console.log(num);
+                //     $(`#q${questionNumber}__${num}`).prop('disabled', 'true');
+                //     // $(`#q${questionNumber}__${num}`).addClass('true');
+                // }
+                $(`.q${questionNumber} input`).prop('disabled', 'true');
+                    
+                $(`label[for=q${questionNumber}__${selection}]`).addClass('true');
+
+
             } else {
-                console.log("false")
+                $(`label[for=q${questionNumber}__${selection}]`).addClass('false');
             }
         };
         print() {
-            console.log(this.options);
+            // console.log(this.options);
             let html = `
             <h4>${this.question}</h4>`;
             for (let option in this.options) {
-                html += `<span class="radioSet"><input type="radio" id="q${this.questionNumber}__${option}" name="drone" value="${this.options[option]}"
-                checked> <label class="radioLabel" for="q${this.questionNumber}__${option}">${this.options[option]}</label></span>`
+                html += `<span class="radioSet q${this.questionNumber}">
+                    <input type="radio" id="q${this.questionNumber}__${option}" name="q${this.questionNumber}" value="${option}">
+                    <label class="radioLabel" for="q${this.questionNumber}__${option}">${this.options[option]}</label>
+                </span>`
                 // html += `<li></li>`
             }
             // html += `</ul>`
             return html;
         }
     };
+
+    
+    quizApp.setListeners = () => {
+        $('input:radio').on('click', function(e) {
+            const name = e.currentTarget.name;
+            const split = name.split("q");
+            const questionNumber = split[1];
+            const question = quizApp.questions[questionNumber];
+            question.calculate(e.currentTarget.value, questionNumber);
+            console.log(questionNumber)
+            console.log(e.currentTarget.name); //e.currenTarget.name points to the property name of the 'clicked' target.
+            console.log(e.currentTarget.value); //e.currenTarget.value points to the property value of the 'clicked' target.
+            // console.log();
+        });
+
+
+        console.log('set');
+        // $('#playLoop').click(function() {
+        //     // $('#playLoop').prop('disabled', true);
+        //     // $('#pauseLoop').prop('disabled', false);
+        //     clearInterval(wordApp.randomWordLoop);
+        //     wordApp.getRandomName();
+        // });
+        
+        
+        // $('input[type="radio"]').click(function() {
+        //     // $('#playLoop').prop('disabled', false);
+        //     // $('#pauseLoop').prop('disabled', true);
+        //     clearInterval(wordApp.randomWordLoop);
+        // });
+    }
 
 quizApp.getQuestions = () => {
     const questionArray = $.ajax({
@@ -98,16 +143,18 @@ quizApp.getQuestions = () => {
             const temp = options[rand];
             options[rand] = result.correct_answer;
             options.push(temp);
-            console.log(options);
-            q = new Question(result.question, options, result.correct_answer, count);
+            // console.log(options);
+            q = new Question(result.question, options, rand, count);
             // q.calculate("bop");
 count++;
-console.log(count);
+// console.log(count);
         // console.log(result);
         $('#questionDisplay').append(q.print());
+        quizApp.questions.push(q);
     });
 
     // $('#questionDisplay').append(`eeee`);
+    quizApp.setListeners();
 
     // return quizApp.questions;
     })

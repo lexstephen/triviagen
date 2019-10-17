@@ -43,6 +43,8 @@
         font-weight: bold;
         color: #001f3f;
     }
+    .true { color: green; }
+    .false { color: red; }
     .radioLabel { display: inline-block; font-weight: normal;}
     .radioSet {display: block;}
     .radioSet input {height: auto;}
