@@ -130,7 +130,8 @@ quizApp.getQuestions = () => {
         dataType: 'json',
         method:'GET',
         data: {
-            amount: 5,
+            amount: 15,
+            category: 12,
             type: 'multiple',
         }
     });
