@@ -62,27 +62,45 @@
                                     <label for="teamMaxSize">Team max size:</label>
                                     <input type="number" min="1"  id="teamMaxSize"></div>
                                 <div><button type="submit" value="Generate teams!"><i class="fas fa-random"></i></button></div>        
-                            </div>    
                         </form>
+                    </div>    
                     
                 <div class="card double nameDisplayContainer">
-                        <section id="nameDisplay"></section>
-                            <button id="nameEdit" type="button"><i class="fas fa-edit"></i></button>
+                    <section id="nameDisplay"></section>
+                    <button id="nameEdit" type="button"><i class="fas fa-edit"></i></button>
                 </div>
             </div>
             <div class="container">
-                    <h1>trivia time!
-                        <small id="quizScore"></small>
-                    </h1>
+                <div class="card-clear">
+                    <h1>trivia time!</h1>
+                </div>
+                <div class="card-clear">
+                    <h1 id="quizScore"></h1>
+                </div>
             </div>
             <div class="container">
-                <div class="card double" id="questionDisplay"></div>
+                <div class="card double">
+                    <form id="questionForm">
+                        <div id="categoryDisplay"></div>
+                        <div>
+                            <label for="difficultyDisplay">Difficulty:</label>
+                            <select id="difficultyDisplay">
+                                <option value=" ">- any -</option>
+                                <option value="easy">easy</option>
+                                <option value="medium">medium</option>
+                                <option value="hard">hard</option>
+                            </select>
+                        </div>
+                        <button type="submit" id="generateQuestions"><i class="fas fa-random"></i></button>
+                    </form>
+                    <div id="questionDisplay"></div>
+                </div>  
             </div>
         </div>
     
         <footer>
             <img src="https://lexy.dev/static/media/pixel-lex-stand.e8cf9bbe.png" alt="Caricature of Lexy" />
-            <p>This confusing string of words has been brought to you thanks to the <a href="https://www.datamuse.com/api/">Datamuse API</a> & <a href="http://lexy.dev">Lexy</a></p>
+            <p>These confusing strings of words have been brought to you thanks to the <a href="https://www.datamuse.com/api/">Datamuse API</a>, <a href="https://opentdb.com">Open Trivia DB</a>, & <a href="http://lexy.dev">Lexy</a></p>
         </footer>
     
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>

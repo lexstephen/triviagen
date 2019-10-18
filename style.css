@@ -38,10 +38,17 @@
     }
     label {
         /* text-align: center; */
-        /* display: block; */
+        display: block;
         /* width: 100%; */
         font-weight: bold;
         color: #001f3f;
+    }
+    #quizScore {
+        text-align: right;
+        /* font-size: 90%; */
+        color: #0074D9;
+        /* float: right; */
+        /* margin-top: 40px; */
     }
     .true { color: green; }
     .false { color: red; }
@@ -51,7 +58,7 @@
     form {
         margin: 5% auto;
     }
-    input, button {
+    input, select, button {
         font-size: 100%;
         padding: 3px;
         margin: 2px;
@@ -170,6 +177,13 @@
         padding: 2%;
         width: 48%;
         background-color: #fff;
+        /* border-top: 1px #001f3f solid; */
+        color: #001f3f;
+        /* text-align: center; */
+    }
+    .card-clear {
+        /* display: flex; */
+        width: 48%;
         /* border-top: 1px #001f3f solid; */
         color: #001f3f;
         /* text-align: center; */

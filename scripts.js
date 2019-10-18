@@ -20,9 +20,13 @@ $(function() {
     teamApp.teamNames = [];
     teamApp.teamSizeValues = [];
 
+    quizApp.categoryUrl = 'https://opentdb.com/api_category.php';
+    quizApp.questionsUrl = 'https://opentdb.com/api.php';
+    quizApp.questionAmount = 15;
     quizApp.score = 0;
     quizApp.questions = [];
-
+    quizApp.categoryID = 12;
+    quizApp.difficulty = "";
 
     $(() => {
         wordApp.init();
@@ -32,7 +36,9 @@ $(function() {
 
 
     quizApp.init = () => {
+        quizApp.getCategories();
         quizApp.getQuestions();
+        $('#quizScore').text(`0 / ${quizApp.questionAmount}`);
     }
 
     teamApp.init = () => {
@@ -57,28 +63,17 @@ $(function() {
             this.questionNumber = questionNumber;
         };
         calculate(selection, questionNumber) {
-            console.log(selection);
-            console.log(this.correct);
+            $(`.q${questionNumber} input`).prop('disabled', 'true');
             if(selection == this.correct) {
                 quizApp.score++;
-                console.log("correct")
-                $('#quizScore').text(`${quizApp.score} / ${this.options.length + 1}`);
-                // for (let num in this.options) {
-                //     console.log(num);
-                //     $(`#q${questionNumber}__${num}`).prop('disabled', 'true');
-                //     // $(`#q${questionNumber}__${num}`).addClass('true');
-                // }
-                $(`.q${questionNumber} input`).prop('disabled', 'true');
-                    
+                $('#quizScore').text(`${quizApp.score} / ${quizApp.questionAmount}`);
                 $(`label[for=q${questionNumber}__${selection}]`).addClass('true');
-
-
             } else {
                 $(`label[for=q${questionNumber}__${selection}]`).addClass('false');
+                $(`label[for=q${questionNumber}__${this.correct}]`).addClass('true');
             }
         };
         print() {
-            // console.log(this.options);
             let html = `
             <h4>${this.question}</h4>`;
             for (let option in this.options) {
@@ -86,9 +81,7 @@ $(function() {
                     <input type="radio" id="q${this.questionNumber}__${option}" name="q${this.questionNumber}" value="${option}">
                     <label class="radioLabel" for="q${this.questionNumber}__${option}">${this.options[option]}</label>
                 </span>`
-                // html += `<li></li>`
             }
-            // html += `</ul>`
             return html;
         }
     };
@@ -101,72 +94,72 @@ $(function() {
             const questionNumber = split[1];
             const question = quizApp.questions[questionNumber];
             question.calculate(e.currentTarget.value, questionNumber);
-            console.log(questionNumber)
-            console.log(e.currentTarget.name); //e.currenTarget.name points to the property name of the 'clicked' target.
-            console.log(e.currentTarget.value); //e.currenTarget.value points to the property value of the 'clicked' target.
-            // console.log();
         });
-
-
-        console.log('set');
-        // $('#playLoop').click(function() {
-        //     // $('#playLoop').prop('disabled', true);
-        //     // $('#pauseLoop').prop('disabled', false);
-        //     clearInterval(wordApp.randomWordLoop);
-        //     wordApp.getRandomName();
-        // });
         
-        
-        // $('input[type="radio"]').click(function() {
-        //     // $('#playLoop').prop('disabled', false);
-        //     // $('#pauseLoop').prop('disabled', true);
-        //     clearInterval(wordApp.randomWordLoop);
-        // });
+        $('#questionForm').submit((ev) => {
+            ev.preventDefault();
+            clearInterval(wordApp.randomWordLoop);
+            quizApp.categoryID = $('#categoryDisplay').find(":selected")[0].value;            
+            quizApp.difficulty = ($('#difficultyDisplay').find(":selected")[0].value === " ")?"":$('#difficultyDisplay').find(":selected")[0].value;  quizApp.getQuestions();
+        })
     }
 
-quizApp.getQuestions = () => {
-    const questionArray = $.ajax({
-        url: 'https://opentdb.com/api.php',
-        dataType: 'json',
-        method:'GET',
-        data: {
-            amount: 15,
-            category: 12,
-            type: 'multiple',
-        }
-    });
+    quizApp.getCategories = () => {
+        const categoryArray = $.ajax({
+            url: quizApp.categoryUrl,
+            dataType: 'json',
+            method: 'GET'
+        });
 
-    $.when(questionArray).done((questions) => {
-        let count = 0;
-        questions.results.forEach((result) => {
-            const options = result.incorrect_answers;
-            const rand = Math.floor(Math.random() * options.length);
-            const temp = options[rand];
-            options[rand] = result.correct_answer;
-            options.push(temp);
-            // console.log(options);
-            q = new Question(result.question, options, rand, count);
-            // q.calculate("bop");
-count++;
-// console.log(count);
-        // console.log(result);
-        $('#questionDisplay').append(q.print());
-        quizApp.questions.push(q);
-    });
+        $.when(categoryArray).done(() => {
+            let html = `<label for="categorySelection">Choose a category:</label>
+            <select id="categorySelection"  >`;
+            categoryArray.responseJSON.trivia_categories.forEach((category) => {
+                html += `<option value="${category.id}"`
+                if(category.id === quizApp.categoryID) {
+                    html += ` selected`;
+                }
+                html += `>${category.name}</option>`
+            });
+            html += `</select>`;
+        $('#categoryDisplay').html(html);
+        });
+    }
 
-    // $('#questionDisplay').append(`eeee`);
-    quizApp.setListeners();
+    quizApp.getQuestions = () => {
+        const questionArray = $.ajax({
+            url: quizApp.questionsUrl,
+            dataType: 'json',
+            method:'GET',
+            data: {
+                amount: quizApp.questionAmount,
+                category: quizApp.categoryID,
+                type: 'multiple',
+                difficulty: quizApp.difficulty,
+            }
+        });
 
-    // return quizApp.questions;
-    })
-}
+        $.when(questionArray).done((questions) => {
+            let count = 0;
+            $('#questionDisplay').text("");
+            questions.results.forEach((result) => {
+                const options = result.incorrect_answers;
+                const rand = Math.floor(Math.random() * options.length);
+                const temp = options[rand];
+                options[rand] = result.correct_answer;
+                options.push(temp);
+                q = new Question(result.question, options, rand, count);
+                count++;
+            $('#questionDisplay').append(q.print());
+            quizApp.questions.push(q);
+        });
+        quizApp.setListeners();
+        })
+    }
 
-
-
-wordApp.getWords = (params) => {   
-    wordApp.requestObject.data.params = params; 
-}
-
+    wordApp.getWords = (params) => {   
+        wordApp.requestObject.data.params = params; 
+    }
 
     wordApp.getRandomName = () => {
         clearInterval(wordApp.randomWordLoop);
@@ -203,26 +196,14 @@ wordApp.getWords = (params) => {
     }
 
     wordApp.setListeners = () => {
-        // $('#playLoop').click(function() {
-        //     // $('#playLoop').prop('disabled', true);
-        //     // $('#pauseLoop').prop('disabled', false);
-        //     clearInterval(wordApp.randomWordLoop);
-        //     wordApp.getRandomName();
-        // });
         $('#pauseLoop').click(function() {
-            // $('#playLoop').prop('disabled', false);
-            // $('#pauseLoop').prop('disabled', true);
             clearInterval(wordApp.randomWordLoop);
         });
         $('#nounForm').submit((ev) => {
             ev.preventDefault();
             clearInterval(wordApp.randomWordLoop);
-            // $('#rhymeString').empty();
             if(wordApp.$inputWord.val() !== "") {
-                console.log("input not empty");
                 wordApp.baseWord = wordApp.$inputWord.val();    
-            } else {
-                console.log("")
             }
             wordApp.getRandomName(wordApp.baseWord);
         })
