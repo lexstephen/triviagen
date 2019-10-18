@@ -98,10 +98,12 @@ $(function() {
         
         $('#questionForm').submit((ev) => {
             ev.preventDefault();
-            quizApp.score = 0;
             clearInterval(wordApp.randomWordLoop);
             quizApp.categoryID = $('#categoryDisplay').find(":selected")[0].value;            
             quizApp.difficulty = ($('#difficultyDisplay').find(":selected")[0].value === " ")?"":$('#difficultyDisplay').find(":selected")[0].value;  quizApp.getQuestions();
+            quizApp.score = 0;
+            $('#quizScore').text(`${quizApp.score} / ${quizApp.questionAmount}`);
+            
         })
     }
 
